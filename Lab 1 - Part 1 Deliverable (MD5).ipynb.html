@@ -1,0 +1,70 @@
+<html>
+<head>
+<title>Lab 1 - Part 1 Deliverable (MD5).ipynb</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #7a7e85;}
+.s1 { color: #bcbec4;}
+.s2 { color: #cf8e6d;}
+.s3 { color: #bcbec4;}
+.s4 { color: #6aab73;}
+.s5 { color: #2aacb8;}
+.ls0 { height: 1px; border-width: 0; color: #43454a; background-color:#43454a}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Lab 1 - Part 1 Deliverable (MD5).ipynb</font>
+</center></td></tr></table>
+<pre><span class="s0">#%% 
+# Part 1 Deliverable - Submit source code for blockchain implementation</span><hr class="ls0"><span class="s0">#%% 
+</span><span class="s2">import </span><span class="s1">hashlib</span><hr class="ls0"><span class="s0">#%% 
+#Create a Block class</span>
+<span class="s2">class </span><span class="s1">Block</span><span class="s3">:</span>
+    <span class="s0">#Create a constructor for the Block class</span>
+    <span class="s2">def </span><span class="s1">__init__</span><span class="s3">(</span><span class="s1">self</span><span class="s3">, </span><span class="s1">data</span><span class="s3">, </span><span class="s1">prev_hash</span><span class="s3">=</span><span class="s4">&quot;0&quot;</span><span class="s3">):</span>
+        <span class="s1">self</span><span class="s3">.</span><span class="s1">data </span><span class="s3">= </span><span class="s1">data</span>
+        <span class="s1">self</span><span class="s3">.</span><span class="s1">prev_hash </span><span class="s3">= </span><span class="s1">prev_hash</span>
+        <span class="s1">self</span><span class="s3">.</span><span class="s1">hash </span><span class="s3">= </span><span class="s1">self</span><span class="s3">.</span><span class="s1">calc_hash</span><span class="s3">()</span>
+<span class="s0">#Create a method that calculates the hash using MD5</span>
+    <span class="s2">def </span><span class="s1">calc_hash</span><span class="s3">(</span><span class="s1">self</span><span class="s3">):</span>
+        <span class="s2">return </span><span class="s1">hashlib</span><span class="s3">.</span><span class="s1">md5</span><span class="s3">((</span><span class="s1">self</span><span class="s3">.</span><span class="s1">data </span><span class="s3">+ </span><span class="s1">self</span><span class="s3">.</span><span class="s1">prev_hash</span><span class="s3">).</span><span class="s1">encode</span><span class="s3">()).</span><span class="s1">hexdigest</span><span class="s3">()</span>
+
+<hr class="ls0"><span class="s0">#%% 
+</span><span class="s2">class </span><span class="s1">Blockchain</span><span class="s3">:</span>
+    <span class="s0">#Create constructor for the Blockchain class</span>
+    <span class="s2">def </span><span class="s1">__init__</span><span class="s3">(</span><span class="s1">self</span><span class="s3">):</span>
+        <span class="s1">self</span><span class="s3">.</span><span class="s1">chain </span><span class="s3">= []</span>
+        <span class="s1">self</span><span class="s3">.</span><span class="s1">create_genesis_block</span><span class="s3">()</span>
+
+    <span class="s0">#Create a method that creates the Genesis Block</span>
+    <span class="s2">def </span><span class="s1">create_genesis_block</span><span class="s3">(</span><span class="s1">self</span><span class="s3">):</span>
+        <span class="s1">genesis_block </span><span class="s3">= </span><span class="s1">Block</span><span class="s3">(</span><span class="s4">&quot;N&quot;</span><span class="s3">)</span>
+        <span class="s1">self</span><span class="s3">.</span><span class="s1">chain</span><span class="s3">.</span><span class="s1">append</span><span class="s3">(</span><span class="s1">genesis_block</span><span class="s3">)</span>
+
+    <span class="s0">#Create a method that creates a new block and appends to the blockchain (list)</span>
+    <span class="s2">def </span><span class="s1">add_block</span><span class="s3">(</span><span class="s1">self</span><span class="s3">,</span><span class="s1">data</span><span class="s3">):</span>
+        <span class="s1">prev_block </span><span class="s3">= </span><span class="s1">self</span><span class="s3">.</span><span class="s1">chain</span><span class="s3">[-</span><span class="s5">1</span><span class="s3">]</span>
+        <span class="s1">new_block </span><span class="s3">= </span><span class="s1">Block</span><span class="s3">(</span><span class="s1">data</span><span class="s3">, </span><span class="s1">prev_block</span><span class="s3">.</span><span class="s1">hash</span><span class="s3">)</span>
+        <span class="s1">self</span><span class="s3">.</span><span class="s1">chain</span><span class="s3">.</span><span class="s1">append</span><span class="s3">(</span><span class="s1">new_block</span><span class="s3">)</span><hr class="ls0"><span class="s0">#%% 
+#Test</span>
+<span class="s1">blockchain </span><span class="s3">= </span><span class="s1">Blockchain</span><span class="s3">()</span><hr class="ls0"><span class="s0">#%% 
+#Append blocks</span>
+<span class="s1">blockchain</span><span class="s3">.</span><span class="s1">add_block</span><span class="s3">(</span><span class="s4">&quot;N+1&quot;</span><span class="s3">)</span>
+<span class="s1">blockchain</span><span class="s3">.</span><span class="s1">add_block</span><span class="s3">(</span><span class="s4">&quot;N+2&quot;</span><span class="s3">)</span>
+<span class="s1">blockchain</span><span class="s3">.</span><span class="s1">add_block</span><span class="s3">(</span><span class="s4">&quot;N+3&quot;</span><span class="s3">)</span>
+<span class="s1">blockchain</span><span class="s3">.</span><span class="s1">add_block</span><span class="s3">(</span><span class="s4">&quot;N+4&quot;</span><span class="s3">)</span>
+<span class="s1">blockchain</span><span class="s3">.</span><span class="s1">add_block</span><span class="s3">(</span><span class="s4">&quot;N+5&quot;</span><span class="s3">)</span><hr class="ls0"><span class="s0">#%% 
+#Print and show the blockchain using MD5</span>
+<span class="s1">print</span><span class="s3">(</span><span class="s4">&quot;Blockchain:&quot;</span><span class="s3">)</span>
+<span class="s2">for </span><span class="s1">block </span><span class="s2">in </span><span class="s1">blockchain</span><span class="s3">.</span><span class="s1">chain</span><span class="s3">:</span>
+    <span class="s1">print</span><span class="s3">(</span><span class="s4">'data:'</span><span class="s3">, </span><span class="s1">block</span><span class="s3">.</span><span class="s1">data</span><span class="s3">)</span>
+    <span class="s1">print</span><span class="s3">(</span><span class="s4">'Previous hash:'</span><span class="s3">, </span><span class="s1">block</span><span class="s3">.</span><span class="s1">prev_hash</span><span class="s3">)</span>
+    <span class="s1">print</span><span class="s3">(</span><span class="s4">'Hash:'</span><span class="s3">, </span><span class="s1">block</span><span class="s3">.</span><span class="s1">hash</span><span class="s3">)</span>
+    <span class="s1">print</span><span class="s3">((</span><span class="s4">'Length of Hash:'</span><span class="s3">), </span><span class="s1">len</span><span class="s3">(</span><span class="s1">block</span><span class="s3">.</span><span class="s1">hash</span><span class="s3">))</span>
+    <span class="s1">print</span><span class="s3">()</span><hr class="ls0"><span class="s0">#%% 
+</span></pre>
+</body>
+</html>
